@@ -6,15 +6,16 @@ GENRES = "rap francais"
 
 spotify = spotipy.Spotify(client_credentials_manager=SpotifyClientCredentials())
 
-releases = spotify.new_releases(country="FR", limit=50)
+releases = spotify.new_releases(country="FR")
 
 #releases = json.load(releases)
 
-for albums in releases['albums']['items']:
-    for artist in albums['artists']:
-        artist_info = spotify.artist(artist['id'])
-        genres = artist_info["genres"]
-        
-        #if GENRES in genres:
-        #    print(albums['name'], albums['artists'], sep=' - ')
-        print(albums['name'], albums['artists'], sep=' - ')
+while releases['albums']['next']:
+    for albums in releases['albums']['items']:
+        for artist in albums['artists']:
+            artist_info = spotify.artist(artist['id'])
+            genres = artist_info["genres"]
+            
+            if GENRES in genres:
+                print(albums['name'], albums['artists'][0]['name'], genres, sep=' - ')
+    releases = spotify.next(releases['albums'])
