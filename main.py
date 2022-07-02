@@ -7,7 +7,9 @@ GENRES = ["rap francais", "rap marseille", "french hip hop", "pop urbaine", "rap
 spotify = spotipy.Spotify(client_credentials_manager=SpotifyClientCredentials())
 logging.basicConfig(level=logging.INFO)
 
-releases = spotify.new_releases(country="FR", limit=50)
+releases = spotify.search("tag:new", type="album", limit=50, market="FR")
+
+logging.info(f"number of results {releases['albums']['total']}")
 
 today_date = datetime.date.today()
 today_date = str(today_date)
