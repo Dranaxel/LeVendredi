@@ -2,7 +2,7 @@ import json, urllib.parse, datetime, logging
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
 
-GENRES = ["hip hop", "rap francais", "rap marseille", "french hip hop", "francoton", "pop urbaine", "rap calme", "rap francais nouvelle vague", "swiss hip hop", "rap inde"]
+GENRES = ["rap francais", "rap marseille", "french hip hop", "pop urbaine", "rap calme", "rap francais nouvelle vague", "swiss hip hop", "rap inde"]
 
 spotify = spotipy.Spotify(client_credentials_manager=SpotifyClientCredentials())
 logging.basicConfig(level=logging.INFO)
@@ -30,9 +30,8 @@ while releases is not None:
         album_genres = get_genres(album)
         filtered_genres = list(filter(is_wanted_genre, album_genres))
 
-        #if filtered_genres != [] and today_date == album_date: 
-        if filtered_genres != []: 
-            print(album['name'], album['artists'][0]['name'], album_genres, album['release_date'], sep=' - ')
+        if filtered_genres != [] and "2022-07-01" == album_date: 
+        #if filtered_genres != []: 
+            print(album['album_type'], album['name'], album['artists'][0]['name'], album_genres, album['release_date'], sep=' - ')
 
     releases = spotify.next(releases['albums'])
-    print("next")
