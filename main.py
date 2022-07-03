@@ -12,8 +12,12 @@ releases = spotify.search("tag:new", type="album", limit=50, market="FR")
 logging.info(f"number of results {releases['albums']['total']}")
 
 today_date = datetime.date.today()
-today_date = str(today_date)
+#today_date = str(today_date)
+today_date = "2022-07-01"
 logging.info(f"Today's date is {today_date}")
+
+albums = []
+singles = []
 
 def is_wanted_genre(genres):
     return True if genres in GENRES else False
@@ -32,8 +36,16 @@ while releases is not None:
         album_genres = get_genres(album)
         filtered_genres = list(filter(is_wanted_genre, album_genres))
 
-        if filtered_genres != [] and "2022-07-01" == album_date: 
-        #if filtered_genres != []: 
+        if filtered_genres != [] and today_date == album_date: 
+            if album['album_type'] == 'album' and album not in albums:
+                albums.append(album)
+            if album['album_type'] == 'single' and album not in singles:
+                singles.append(album)
             print(album['album_type'], album['name'], album['artists'][0]['name'], album_genres, album['release_date'], sep=' - ')
 
-    releases = spotify.next(releases['albums'])
+    try:
+        releases = spotify.next(releases['albums'])
+    except:
+        break
+print("ended")
+
