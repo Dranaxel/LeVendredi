@@ -2,7 +2,7 @@ import json, urllib.parse, datetime, logging
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
 
-GENRES = ["rap francais", "rap marseille", "french hip hop", "pop urbaine", "rap calme", "rap francais nouvelle vague", "swiss hip hop", "rap inde"]
+GENRES = ("rap francais", "rap marseille", "french hip hop", "pop urbaine", "rap calme", "rap francais nouvelle vague", "swiss hip hop", "rap inde")
 
 spotify = spotipy.Spotify(client_credentials_manager=SpotifyClientCredentials())
 logging.basicConfig(level=logging.INFO)
