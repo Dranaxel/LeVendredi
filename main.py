@@ -1,10 +1,14 @@
 import json, urllib.parse, datetime, logging
 import spotipy
+from jinja2 import Environment, PackageLoader
 from spotipy.oauth2 import SpotifyClientCredentials
 
 GENRES = ("rap francais", "rap marseille", "french hip hop", "pop urbaine", "rap calme", "rap francais nouvelle vague", "swiss hip hop", "rap inde")
 
 spotify = spotipy.Spotify(client_credentials_manager=SpotifyClientCredentials())
+jinja = Environment(
+        loader=PackageLoader("main")
+        )
 logging.basicConfig(level=logging.INFO)
 
 releases = spotify.search("tag:new", type="album", limit=50, market="FR")
@@ -46,6 +50,8 @@ while releases is not None:
     try:
         releases = spotify.next(releases['albums'])
     except:
-        break
-print("ended")
+        releases = None
+
+template = jinja.get_template("main.jinja")
+print(template.render(albums=albums))
 
