@@ -46,12 +46,11 @@ while releases is not None:
             if album['album_type'] == 'single' and album not in singles:
                 singles.append(album)
             print(album['album_type'], album['name'], album['artists'][0]['name'], album_genres, album['release_date'], sep=' - ')
-
-    try:
-        releases = spotify.next(releases['albums'])
-    except:
+    
+    if (releases['albums']['offset'] + releases['albums']['limit']) >= 1000:
         releases = None
+    else:
+        releases = spotify.next(releases['albums'])
 
 template = jinja.get_template("main.jinja")
 print(template.render(albums=albums))
-
