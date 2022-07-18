@@ -8,11 +8,12 @@ results = dict()
 
 class releases():
     def __init__(self, country):
-        logging.info(f"Logging to spotify")
+        logging.info(f"Logging to Spotify")
         try:
             self.spotify = spotipy.Spotify(client_credentials_manager=SpotifyClientCredentials())
         except BaseException:
             logging.error('There have been a problem')
+        logging.info(f"Successfully logged in Spotify")
         self.releases = self.spotify.new_releases(country, limit=50)
 
     def __get_genres(self, album):
@@ -27,26 +28,28 @@ class releases():
     def get_albums(self):
         albums = []
         releases = self.releases
-        for album in releases['albums']['items']:
-            album_date = album['release_date']
-            album_genres = self.__get_genres(album)
-            albums.append(
-                {
-                        "name": album['name'],
-                        "artist": album['artists'][0]['name'],
-                        "date": album['release_date'],
-                        "genres": album_genres,
-                        "type": album['album_type']
-                }
-            )
+        while releases is not None:
+            for album in releases['albums']['items']:
+                album_date = album['release_date']
+                album_genres = self.__get_genres(album)
+                albums.append(
+                    {
+                            "name": album['name'],
+                            "artist": album['artists'][0]['name'],
+                            "date": album['release_date'],
+                            "genres": album_genres,
+                            "type": album['album_type']
+                    }
+                )
+            releases = self.next()
         return albums
 
     def get_page(self):
         return self.releases
 
     def next(self):
-        releases = self.spotify.next(self.releases['albums'])
-        return releases
+        self.releases = self.spotify.next(self.releases['albums'])
+        return  self.releases
 
 def get_today_date():
     today_date = datetime.date.today()
@@ -56,14 +59,12 @@ def get_today_date():
 
 
 if __name__ == '__main__':
+    results = []
     today_date = get_today_date()
     releases = releases("FR")
     releases = releases.get_albums()
 
-    a=0
-    while releases is not None:
-        for i in releases:
-            if i["genres"].intersection(GENRES):
-                print(i)
-        releases = releases.next()
+    for i in releases:
+        if i["genres"].intersection(GENRES):
+           results.append(i) 
     print(results)
