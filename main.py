@@ -1,6 +1,9 @@
 import json, urllib.parse, datetime, logging
 import spotipy
+
 from spotipy.oauth2 import SpotifyClientCredentials
+from jinja2 import Environment, PackageLoader
+
 
 logging.basicConfig(level=logging.INFO)
 GENRES = {"rap francais", "rap marseille", "french hip hop", "pop urbaine", "rap calme", "rap francais nouvelle vague", "swiss hip hop", "rap inde"}
@@ -32,13 +35,15 @@ class releases():
             for album in releases['albums']['items']:
                 album_date = album['release_date']
                 album_genres = self.__get_genres(album)
+                artists = [x['name'] for x in album['artists']]
                 albums.append(
                     {
                             "name": album['name'],
-                            "artist": album['artists'][0]['name'],
+                            "artists": artists,
                             "date": album['release_date'],
                             "genres": album_genres,
-                            "type": album['album_type']
+                            "type": album['album_type'],
+                            "images": album['images']
                     }
                 )
             releases = self.next()
@@ -59,6 +64,9 @@ def get_today_date():
 
 
 if __name__ == '__main__':
+    jinja = Environment(
+            loader=PackageLoader("main")
+    )
     results = []
     today_date = get_today_date()
     releases = releases("FR")
@@ -67,4 +75,7 @@ if __name__ == '__main__':
     for i in releases:
         if i["genres"].intersection(GENRES):
            results.append(i) 
-    print(results)
+
+    template = jinja.get_template("main.jinja")
+    rendered = template.render(albums=results)
+    print(rendered)
