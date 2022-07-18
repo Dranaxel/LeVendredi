@@ -3,34 +3,51 @@
 
 <style>
 	body {
-		background: rgb(255,180,180);
-		background: linear-gradient(207deg, rgba(255,180,180,1) 55%, rgba(255,222,180,1) 89%);
+		margin: 0;
 	}
-</style
+</style>
 
 <body>
 <div class="container">
-	{% for album in albums %}
+	
 	<div class="row justify-content-md-center">
 	    <div class="col-md-auto">
 			<div class="card mb-3" style="width: 18rem;">
-				<div class="card-header"> {{ album.name }} </div>
-				<img src="{{ album.images[1].url }}" card-img-top">
+				<div class="card-header">
+					LMDB
+				</div>
+				<img src="https://i.scdn.co/image/ab67616d00001e023731282522d440b5fbcd4b61" class="card-img-bottom">
 				<div class="card-body">
-					<div class="row">
-						{% for artist in album.artists %}
+					<div class="row">	
 						<div class="col col-10">
-							<span class="badge rounded-pill" style="background-color:CornflowerBlue;">{{ artist }}</span>
+							<span class="badge rounded-pill" style="background-color:CornflowerBlue;">Rsko</span>
 						</div>
 						<div class="col col-2">
 							<img src="./spotify_logo.png" width="20px">
 						</div>
-						{% endfor %}
 					</div>
+
 				</div>
 			</div>
 	    </div>
 	</div>
-	{% endfor %}
+	
+	<div class="row justify-content-md-center">
+	    <div class="col-md-auto">
+			<div class="card" style="width: 18rem;">
+				<img src="https://i.scdn.co/image/ab67616d00001e02e8f5f789fbda5464e05143fb" class="rounded card-img-top">
+				<div class="card-body">
+					<h5 class="card-title>Van Bommel</h5>
+					<div class="row">
+						
+						<span class="badge rounded-pill" style="background-color:CornflowerBlue;">Chily</span>
+						
+					</div>
+
+				</div>
+			</div>
+	    </div>
+	</div>
+	
 </div>
 </body>
