@@ -12,13 +12,17 @@
                font-family: Alex Brush;
                color: #B2A4FF;
 }
+h2 {
+	font-size: 14;
+	font-weight: bold;
+}
 	.card{
 		background: rgba(253, 252, 248, 0.667);
 		border-radius: 16px;
 		box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
 		backdrop-filter: blur(14.7px);
 		-webkit-backdrop-filter: blur(14.7px);
-		border: 1px solid rgba(255, 249, 202, 0.64);
+		##border: 1px solid rgba(255, 249, 202, 0.64);
 	}
 </style
 
@@ -36,7 +40,7 @@
 					{% for album in albums %}
 						<div class="col-sm-3 my-1">
 										<div class="shadow-sm card" style="width: 18rem;">
-											<div class="card-header"> {{ album.name }} </div>
+											<h2 class="card-header"> {{ album.name }} </h2>
 											<img src="{{ album.images[1].url }}" card-img-top">
 											<div class="card-body">
 												<div class="row">
