@@ -30,7 +30,7 @@ h2 {
 	<div class="container">
 			<div class="row justify-content-md-center">
 				<div class="col-md-auto">
-					<h1 class="display-1 mt-3">💿 Le Vendredi 💿</h1>
+					<h1 class="display-1 mt-3">Le Vendredi</h1>
 					<hr>
 				</div>
 			</div>
@@ -39,7 +39,7 @@ h2 {
 		<div class="row">
 					{% for album in albums %}
 						<div class="col-sm-3 my-1">
-										<div class="shadow-sm card" style="width: 18rem;">
+										<div class="shadow card" style="width: 18rem;">
 											<h2 class="card-header"> {{ album.name }} </h2>
 											<img src="{{ album.images[1].url }}" card-img-top">
 											<div class="card-body">
