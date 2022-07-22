@@ -78,4 +78,7 @@ if __name__ == '__main__':
 
     template = jinja.get_template("main.jinja")
     rendered = template.render(albums=results)
-    print(rendered)
+
+    with open("web-src/main.html", "w") as f:
+        f.write(rendered)
+
