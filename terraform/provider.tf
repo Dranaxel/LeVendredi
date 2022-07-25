@@ -3,7 +3,7 @@ terraform {
 
   required_providers {
     aws = {
-      source = "hashicorp/aws"
+      source  = "hashicorp/aws"
       version = "~>4.23.0"
     }
   }
@@ -11,17 +11,17 @@ terraform {
   backend "s3" {
     region = "us-east-1"
     bucket = "levendredi.backend"
-    key = "terraform.tfstate"
+    key    = "terraform.tfstate"
   }
 
 }
 
 provider "aws" {
-      region = "us-east-1"
-      default_tags {
-        tags = {
-          Projet = "levendredi"
-          version = "0.1"
-        }
-      }
+  region = "us-east-1"
+  default_tags {
+    tags = {
+      Projet  = "levendredi"
+      version = "0.1"
     }
+  }
+}
