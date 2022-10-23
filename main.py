@@ -40,10 +40,27 @@ def search_for_albums(artist, spotify):
     logging.info(f'Gathered {len(albums)} albums from artist {artist["name"]}')
     return albums
 
-def get_album_info(album, spotify):
-    album = spotify.album(album['id'])
-    logging.info(f'Gathered {album["name"]} released at {album["release_date"]}')
-    return album
+def get_albums_info(albums, spotify):
+    albums_name = [ _["name"] for _ in albums]
+    albums_id = [ _["id"] for _ in albums]
+    logging.info(f'Gathering {albums_name} with ids {albums_id}')
+
+    if len(albums) == 0:
+        logging.info(f'No album to gather, passing')
+        pass
+    elif len(albums) > 20:
+        logging.info('More than 20 albums, breaking it in chunks')
+        albums_buffer = []
+        chunks = [ albums_id[x:x+20] for x in range(0, len(albums_id), 20)]
+        logging.info(f'Processing chunks: {chunks}')
+        for i in chunks:
+            i = spotify.albums(i)
+            albums_buffer.append(i)
+        return albums_buffer
+    else:
+        albums = spotify.albums(albums_id)
+        logging.info(f'Gathered {albums_name}')
+        return albums
 
 def get_today_date():
     today_date = datetime.date.today()
@@ -64,15 +81,15 @@ if __name__ == "__main__":
     released_albums = []
     for i in ls_artists:
         albums = search_for_albums(i, spotify)
-        for _ in albums:
-            album = get_album_info(_, spotify)
-            if album["release_date"] == today_date:
-                logging.info(f'Added album {album["name"]}')
-                released_albums.append(album)
-
-    print(released_albums)
-
-        
-
-
+        print(albums)
+        albums = get_albums_info(albums, spotify)
+        released_albums.append(albums)
+            #if album["release_date"] == today_date:
+            #    logging.info(f'Added album {album["name"]}')
+            #    released_albums.append(album)
+    logging.info(f'Gathered {len(released_albums)} albums')
+    for _ in released_albums:
+        print(_)
+        if _['release_date'] == today_date:
+            print(_)
 
